@@ -86,7 +86,7 @@ is a full cartesian system where x, y and z moves are handled by separate motors
 Cases 1, 2, 8 and 9 cover all needed xy and xz H gantry systems. If you get results mirrored etc. you can swap motor connections for x and y.
 If a motor turns in the wrong direction change INVERT_X_DIR or INVERT_Y_DIR.
 */
-#define DRIVE_SYSTEM 3
+#define DRIVE_SYSTEM 1
 
 // ##########################################################################################
 // ##                               Calibration                                            ##
@@ -129,18 +129,39 @@ If a motor turns in the wrong direction change INVERT_X_DIR or INVERT_Y_DIR.
 // *******************************************************
 // *** These parameter are for all other printer types ***
 // *******************************************************
+/** \brief Pitch in mm of drive belt. GT2 = 2mm */
+#define BELT_PITCH 2
+/** \brief Number of teeth on X and Y tower pulleys */
+#define PULLEY_TEETH 36
+#define PULLEY_CIRCUMFERENCE (BELT_PITCH * PULLEY_TEETH)
 
-/** Drive settings for printers with cartesian drive systems */
+/** \brief Steps per rotation of stepper motor */
+#define STEPS_PER_ROTATION 200
+
+/** \brief Micro stepping rate of X, Y and Z tower stepper drivers */
+#define MICRO_STEPS 32
+
+// Calculations
+#define AXIS_STEPS_PER_MM ((float)(MICRO_STEPS * STEPS_PER_ROTATION) / PULLEY_CIRCUMFERENCE)
 /** \brief Number of steps for a 1mm move in x direction.
 For xy gantry use 2*belt moved!
 Overridden if EEPROM activated. */
-#define XAXIS_STEPS_PER_MM 98.425196
+#define XAXIS_STEPS_PER_MM AXIS_STEPS_PER_MM * 2
 /** \brief Number of steps for a 1mm move in y direction.
 For xy gantry use 2*belt moved!
 Overridden if EEPROM activated.*/
-#define YAXIS_STEPS_PER_MM 98.425196
+#define YAXIS_STEPS_PER_MM AXIS_STEPS_PER_MM * 2
+
+/** \brief Number of teeth on Z tower pulleys */
+#define PULLEY_TEETH 20
+#define PULLEY_CIRCUMFERENCE (BELT_PITCH * PULLEY_TEETH)
+/** \brief mm travel per rotation of ball screw */
+#define Z_AXIS_BALL_SCREW_MM_PER_ROTATION 4
+
 /** \brief Number of steps for a 1mm move in z direction  Overridden if EEPROM activated.*/
-#define ZAXIS_STEPS_PER_MM 2560
+#define ZAXIS_STEPS_PER_MM (AXIS_STEPS_PER_MM / Z_AXIS_BALL_SCREW_MM_PER_ROTATION)
+
+
 #endif
 
 // ##########################################################################################
@@ -764,8 +785,8 @@ on this endstop.
 // For delta robot Z_MAX_LENGTH is the maximum travel of the towers and should be set to the distance between the hotend
 // and the platform when the printer is at its home position.
 // If EEPROM is enabled these values will be overidden with the values in the EEPROM
-#define X_MAX_LENGTH 200
-#define Y_MAX_LENGTH 200
+#define X_MAX_LENGTH 400
+#define Y_MAX_LENGTH 1250
 #define Z_MAX_LENGTH 400
 
 // Coordinates for the minimum axis. Can also be negative if you want to have the bed start at 0 and the printer can go to the left side
@@ -792,7 +813,7 @@ on this endstop.
 
 /** \brief Number of segments to generate for delta conversions per second of move
 */
-#define DELTA_SEGMENTS_PER_SECOND_PRINT 180 // Move accurate setting for print moves
+#define DELTA_SEGMENTS_PER_SECOND_PRINT 180 // More accurate setting for print moves
 #define DELTA_SEGMENTS_PER_SECOND_MOVE 70 // Less accurate setting for other moves
 
 // Delta settings
@@ -1075,9 +1096,8 @@ to activate the quadratic term. Only adds lots of computations and storage usage
  Overridden if EEPROM activated.
 */
 //#define BAUDRATE 76800
-#define BAUDRATE 115200
-//#define BAUDRATE 250000
-
+//#define BAUDRATE 115200
+#define BAUDRATE 250000
 /**
 Some boards like Gen7 have a power on pin, to enable the atx power supply. If this is defined,
 the power will be turned on without the need to call M80 if initially started.
@@ -1147,6 +1167,14 @@ instead of driving both with a single stepper. The same works for the other axis
 #define Z2_STEP_PIN   E1_STEP_PIN
 #define Z2_DIR_PIN    E1_DIR_PIN
 #define Z2_ENABLE_PIN E1_ENABLE_PIN
+
+#define FEATURE_THREE_ZSTEPPER 1
+#define Z2_STEP_PIN   E1_STEP_PIN
+#define Z2_DIR_PIN    E1_DIR_PIN
+#define Z2_ENABLE_PIN E1_ENABLE_PIN
+#define Z3_STEP_PIN   E1_STEP_PIN
+#define Z3_DIR_PIN    E1_DIR_PIN
+#define Z3_ENABLE_PIN E1_ENABLE_PIN
 
 /* Ditto printing allows 2 extruders to do the same action. This effectively allows
 to print an object two times at the speed of one. Works only with dual extruder setup.
