@@ -8,13 +8,10 @@ copied and installed the same way.
 
 To solve the problem copy the modified version as follows:
 
-boards.txt needts to to to <ArduinoInstallPath>/hardware/arduino/sam
+The content of boards.txt needs to be appended to <ArduinoInstallPath>/hardware/arduino/sam or for version of Arduino IDE later than 1.5.x, $(HOME)/.arduino15/packages/hardware/arduino/sam/1.6.6
 
-It contains the 2 original entries plus a new one called Arduino Due for Repetier.
-If you have modifed the boards.txt before, add only the last entry in boards.txt.
-
-Copy the folder arduino_due_repetier to
-<ArduinoInstallPath>/hardware/arduino/sam/variants
+Copy directories arduino_due_repetier, alligator_r1 and alligator_r2 to
+<ArduinoInstallPath>/hardware/arduino/sam/variants or for version of Arduino IDE later than 1.5.x, $(HOME)/.arduino15/packages/hardware/arduino/sam/1.6.6/variants
 
 After a restart you have a new board in your list. Use it only if you
 compile with watchdog feature enabled (which is the preferred way for increased safety)
