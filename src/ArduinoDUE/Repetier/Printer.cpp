@@ -677,6 +677,21 @@ void Printer::setup()
 #endif
 #endif
 
+#if FEATURE_THREE_ZSTEPPER
+    SET_OUTPUT(Z2_STEP_PIN);
+    SET_OUTPUT(Z2_DIR_PIN);
+    SET_OUTPUT(Z3_STEP_PIN);
+    SET_OUTPUT(Z3_DIR_PIN);
+#if Z2_ENABLE_PIN > -1
+    SET_OUTPUT(Z2_ENABLE_PIN);
+    WRITE(Z2_ENABLE_PIN, !Z_ENABLE_ON);
+#endif
+#if Z3_ENABLE_PIN > -1
+    SET_OUTPUT(Z3_ENABLE_PIN);
+    WRITE(Z3_ENABLE_PIN, !Z_ENABLE_ON);
+#endif
+#endif
+
     //endstop pullups
 #if MIN_HARDWARE_ENDSTOP_X
 #if X_MIN_PIN > -1
@@ -1338,6 +1353,10 @@ void Printer::zBabystep()
     WRITE(Z_STEP_PIN,HIGH);
 #if FEATURE_TWO_ZSTEPPER
     WRITE(Z2_STEP_PIN,HIGH);
+#endif
+#if FEATURE_THREE_ZSTEPPER
+    WRITE(Z2_STEP_PIN,HIGH);
+    WRITE(Z3_STEP_PIN,HIGH);
 #endif
     HAL::delayMicroseconds(STEPPER_HIGH_DELAY + 2);
     Printer::endXYZSteps();

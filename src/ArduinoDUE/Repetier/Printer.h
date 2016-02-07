@@ -369,6 +369,14 @@ public:
 #if FEATURE_TWO_ZSTEPPER && (Z2_ENABLE_PIN > -1)
         WRITE(Z2_ENABLE_PIN, !Z_ENABLE_ON);
 #endif
+#if FEATURE_THREE_ZSTEPPER
+#if (Z2_ENABLE_PIN > -1)
+        WRITE(Z2_ENABLE_PIN, !Z_ENABLE_ON);
+#endif
+#if (Z3_ENABLE_PIN > -1)
+        WRITE(Z3_ENABLE_PIN, !Z_ENABLE_ON);
+#endif
+#endif
     }
 
     /** \brief Enable stepper motor for x direction. */
@@ -401,7 +409,15 @@ public:
 #if FEATURE_TWO_ZSTEPPER && (Z2_ENABLE_PIN > -1)
         WRITE(Z2_ENABLE_PIN, Z_ENABLE_ON);
 #endif
-    }
+#if FEATURE_THREE_ZSTEPPER
+#if (Z2_ENABLE_PIN > -1)
+        WRITE(Z2_ENABLE_PIN, Z_ENABLE_ON);
+#endif
+#if (Z3_ENABLE_PIN > -1)
+        WRITE(Z3_ENABLE_PIN, Z_ENABLE_ON);
+#endif
+#endif
+}
 
     static inline void setXDirection(bool positive)
     {
@@ -446,6 +462,10 @@ public:
 #if FEATURE_TWO_ZSTEPPER
             WRITE(Z2_DIR_PIN, !INVERT_Z_DIR);
 #endif
+#if FEATURE_THREE_ZSTEPPER
+            WRITE(Z2_DIR_PIN, !INVERT_Z_DIR);
+            WRITE(Z3_DIR_PIN, !INVERT_Z_DIR);
+#endif
         }
         else
         {
@@ -453,7 +473,12 @@ public:
 #if FEATURE_TWO_ZSTEPPER
             WRITE(Z2_DIR_PIN, INVERT_Z_DIR);
 #endif
+#if FEATURE_THREE_ZSTEPPER
+            WRITE(Z2_DIR_PIN, INVERT_Z_DIR);
+            WRITE(Z3_DIR_PIN, INVERT_Z_DIR);
+#endif
         }
+	
     }
 
     static inline bool getZDirection()
@@ -798,6 +823,10 @@ public:
 #if FEATURE_TWO_ZSTEPPER
             WRITE(Z2_STEP_PIN,HIGH);
 #endif
+#if FEATURE_THREE_ZSTEPPER
+            WRITE(Z2_STEP_PIN,HIGH);
+            WRITE(Z3_STEP_PIN,HIGH);
+#endif
             motorYorZ += 2;
         }
         else if(motorYorZ >= 2)
@@ -807,6 +836,11 @@ public:
 #if FEATURE_TWO_ZSTEPPER
             WRITE(Z2_STEP_PIN,HIGH);
 #endif
+#if FEATURE_THREE_ZSTEPPER
+            WRITE(Z2_STEP_PIN,HIGH);
+            WRITE(Z3_STEP_PIN,HIGH);
+#endif
+
             motorYorZ -= 2;
         }
 #endif
@@ -825,6 +859,11 @@ public:
 #if FEATURE_TWO_ZSTEPPER
         WRITE(Z2_STEP_PIN,LOW);
 #endif
+#if FEATURE_THREE_ZSTEPPER
+        WRITE(Z2_STEP_PIN,LOW);
+        WRITE(Z3_STEP_PIN,LOW);
+#endif
+
     }
     static inline speed_t updateStepsPerTimerCall(speed_t vbase)
     {

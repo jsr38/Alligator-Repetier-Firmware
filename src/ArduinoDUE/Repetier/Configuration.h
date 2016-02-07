@@ -118,7 +118,7 @@ If a motor turns in the wrong direction change INVERT_X_DIR or INVERT_Y_DIR.
 #define STEPS_PER_ROTATION 200
 
 /** \brief Micro stepping rate of X, Y and Y tower stepper drivers */
-#define MICRO_STEPS 32
+#define MICRO_STEPS 16
 
 // Calculations
 #define AXIS_STEPS_PER_MM ((float)(MICRO_STEPS * STEPS_PER_ROTATION) / PULLEY_CIRCUMFERENCE)
@@ -139,7 +139,7 @@ If a motor turns in the wrong direction change INVERT_X_DIR or INVERT_Y_DIR.
 #define STEPS_PER_ROTATION 200
 
 /** \brief Micro stepping rate of X, Y and Z tower stepper drivers */
-#define MICRO_STEPS 32
+#define MICRO_STEPS 16
 
 // Calculations
 #define AXIS_STEPS_PER_MM ((float)(MICRO_STEPS * STEPS_PER_ROTATION) / PULLEY_CIRCUMFERENCE)
@@ -800,7 +800,7 @@ on this endstop.
 // ##########################################################################################
 
 // Microstep setting (Only functional when stepper driver microstep pins are connected to MCU. Currently only works for RAMBO boards
-#define MICROSTEP_MODES {32,32,32,16,16} // [1,2,4,8,16]
+#define MICROSTEP_MODES {16,16,16,16,16} // [1,2,4,8,16]
 
 // Motor Current setting (Only functional when motor driver current ref pins are connected to a digital trimpot on supported boards)
 #if MOTHERBOARD==301
@@ -808,7 +808,7 @@ on this endstop.
 #elif MOTHERBOARD==12
 #define MOTOR_CURRENT {35713,35713,35713,35713,35713} // Values 0-65535 (3D Master 35713 = ~1A)
 #elif (MOTHERBOARD==500) || (MOTHERBOARD==501) // Alligator boards
-#define MOTOR_CURRENT {130,130,130,110,110}
+#define MOTOR_CURRENT {200,200,200,200,200}
 #endif
 
 /** \brief Number of segments to generate for delta conversions per second of move
@@ -1096,8 +1096,8 @@ to activate the quadratic term. Only adds lots of computations and storage usage
  Overridden if EEPROM activated.
 */
 //#define BAUDRATE 76800
-//#define BAUDRATE 115200
-#define BAUDRATE 250000
+#define BAUDRATE 115200
+//#define BAUDRATE 250000
 /**
 Some boards like Gen7 have a power on pin, to enable the atx power supply. If this is defined,
 the power will be turned on without the need to call M80 if initially started.
@@ -1144,7 +1144,7 @@ matches, the stored values are used to overwrite the settings.
 IMPORTANT: With mode <>0 some changes in Configuration.h are not set any more, as they are
            taken from the EEPROM.
 */
-#define EEPROM_MODE 1
+#define EEPROM_MODE 0
 
 
 /**************** duplicate motor driver ***************
@@ -1169,12 +1169,15 @@ instead of driving both with a single stepper. The same works for the other axis
 #define Z2_ENABLE_PIN E1_ENABLE_PIN
 
 #define FEATURE_THREE_ZSTEPPER 1
-#define Z2_STEP_PIN   E1_STEP_PIN
-#define Z2_DIR_PIN    E1_DIR_PIN
-#define Z2_ENABLE_PIN E1_ENABLE_PIN
-#define Z3_STEP_PIN   E1_STEP_PIN
-#define Z3_DIR_PIN    E1_DIR_PIN
-#define Z3_ENABLE_PIN E1_ENABLE_PIN
+#define Z_STEP_PIN    E1_STEP_PIN
+#define Z_DIR_PIN     E1_DIR_PIN
+#define Z_ENABLE_PIN  E1_ENABLE_PIN
+#define Z2_STEP_PIN   E2_STEP_PIN
+#define Z2_DIR_PIN    E2_DIR_PIN
+#define Z2_ENABLE_PIN E2_ENABLE_PIN
+#define Z3_STEP_PIN   E3_STEP_PIN
+#define Z3_DIR_PIN    E3_DIR_PIN
+#define Z3_ENABLE_PIN E3_ENABLE_PIN
 
 /* Ditto printing allows 2 extruders to do the same action. This effectively allows
 to print an object two times at the speed of one. Works only with dual extruder setup.

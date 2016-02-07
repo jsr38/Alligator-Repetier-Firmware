@@ -585,6 +585,10 @@ public:
 #if FEATURE_TWO_ZSTEPPER
         WRITE(Z2_STEP_PIN,HIGH);
 #endif
+#if FEATURE_THREE_ZSTEPPER
+        WRITE(Z2_STEP_PIN,HIGH);
+	WRITE(Z3_STEP_PIN,HIGH);
+#endif
 #else
 #if DRIVE_SYSTEM==XZ_GANTRY
         if(isYPositiveMove())
