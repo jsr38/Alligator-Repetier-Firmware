@@ -899,6 +899,7 @@ void Extruder::setMixingWeight(uint8_t extr,int weight)
         mixingS += extruder[i].mixingW;
     }
 }
+
 void Extruder::step()
 {
     if(PrintLine::cur != NULL && PrintLine::cur->isAllEMotors()) {
@@ -2037,8 +2038,8 @@ void TemperatureController::updateCurrentTemperature()
 	case 14:
     {
         type--;
-        uint8_t num = pgm_read_byte(&temptables_num[type]) << 1;
-        uint8_t i = 2;
+        uint16_t num = pgm_read_byte(&temptables_num[type]) << 1;
+        uint16_t i = 2;
         const int16_t *temptable = (const int16_t *)pgm_read_word(&temptables[type]); //pgm_read_word_near(&temptables[type]);
         int16_t oldraw = pgm_read_word(&temptable[0]);
         int16_t oldtemp = pgm_read_word(&temptable[1]);
